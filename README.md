@@ -4,6 +4,11 @@
 
 ### Author: Ellis Yoo
 
+### Links and Resources
+
+
+- [front-end application](https://ey-cf-resty.netlify.app/) (when applicable)
+
 ### Setup
 
 #### How to initialize the application
