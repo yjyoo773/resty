@@ -1,10 +1,12 @@
 import React from "react";
 import "./design/style.scss";
-import Header from "./components/header/Header";
-import Form from "./components/form/Form";
-import History from "./components/history/History";
-import Results from "./components/results/Results";
-import Footer from "./components/footer/Footer";
+import Header from "./components/header";
+import Form from "./components/form";
+import History from "./components/history";
+import Results from "./components/results";
+import Footer from "./components/footer";
+
+
 
 class App extends React.Component {
   constructor(props) {
@@ -23,13 +25,13 @@ class App extends React.Component {
   render() {
     console.log(this.state.results);
     return (
-      <React.Fragment>
+      <>
         <Header />
         <Form handleForm={this.handleForm} history={this.state.history} />
-        <History history={this.state.history} />
-        <Results results={this.state.results} count={this.state.count} />
+            <History history={this.state.history} />
+            <Results results={this.state.results} count={this.state.count} />
         <Footer />
-      </React.Fragment>
+      </>
     );
   }
 }
