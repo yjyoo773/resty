@@ -7,7 +7,7 @@
 ### Links and Resources
 
 
-- [front-end application](https://ey-cf-resty.netlify.app/) (when applicable)
+- [front-end application](https://yjyoo773.github.io/resty/)
 
 ### Setup
 
