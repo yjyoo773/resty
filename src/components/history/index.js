@@ -9,7 +9,6 @@ class History extends React.Component {
     let rest = req[0];
     this.props.handleRest(rest);
     this.props.handleUrl(url);
-    console.log(e.target);
   };
   render() {
     const list = this.props.history.map((element, idx) => (
