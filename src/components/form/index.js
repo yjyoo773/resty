@@ -48,11 +48,11 @@ class Form extends React.Component {
       let data;
       let results = [];
       this.props.toggleLoad()
+      if (this.state.rest === "post") {
+        data = await axios.post(this.props.url,this.state.body);
+      }
       // if (this.state.rest === "get") {
       data = await axios.get(this.props.url);
-      // }
-      // if (this.state.rest === "post") {
-        // data = await axios.post(this.props.url,this.state.body);
       // }
       // if (this.state.rest === "put") {
       //   data = await axios.put(this.props.url);
