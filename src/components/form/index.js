@@ -1,87 +1,109 @@
 import React from "react";
 import "./form.scss";
 import axios from "axios";
+import FormBody from "../formbody";
+import FormQuery from "../formquery";
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: "",
-      rest: "get",
+      body: "",
+      query: "",
+      value: "",
     };
   }
 
   handleUrlChange = (e) => {
     let url = e.target.value;
-    this.setState({ url });
+    // this.setState({ url });
+    this.props.handleUrl(url)
+  };
+
+  handleBody = (body) => {
+    this.setState({ body });
+  };
+
+  handleQuery = (query) => {
+    this.setState({ query });
+  };
+
+  handleValue = (value) => {
+    this.setState({ value });
   };
 
   handleRestButton = (e) => {
     e.preventDefault();
     let rest = e.target.value;
-    this.setState({ rest });
+    this.props.handleRest(rest)
   };
 
   handleGoButton = async (e) => {
     e.preventDefault();
     let history = this.props.history;
-    history.push(`${this.state.rest}   ${this.state.url}`);
+    history.push([this.props.rest,this.props.url,this.state.body]);
     this.setState({ history });
+    // console.log("from handlegobutton",history)
     try {
       let data;
-      let results = []
+      let results = [];
+      this.props.toggleLoad()
       // if (this.state.rest === "get") {
-        data = await axios.get(this.state.url);
+      data = await axios.get(this.props.url);
       // }
       // if (this.state.rest === "post") {
-      //   data = await axios.post(this.state.url);
+        // data = await axios.post(this.props.url,this.state.body);
       // }
       // if (this.state.rest === "put") {
-      //   data = await axios.put(this.state.url);
+      //   data = await axios.put(this.props.url);
       // }
       // if (this.state.rest === "delete") {
-      //   data = await axios.delete(this.state.url);
+      //   data = await axios.delete(this.props.url);
       // }
       let count = data.data.count;
-      let header = data.headers
-      let body = data.data
-      results.push(header)
-      results.push(body)
-      console.log('from form',data)
-      this.props.handleForm(count, results,history);
-    } catch (error) {
-      console.error(error);
+      let header = data.headers;
+      let body = data.data;
+
+      results.push(header);
+      results.push(body);
+      this.props.handleForm(count, results, history);
+      this.props.toggleLoad()
+    } catch (e) {
+      console.log(e);
     }
   };
 
   render() {
-    // const list = this.props.history.map((element) => <li>{element}</li>);
+    const isGet = this.props.rest === "get";
     return (
       <div>
-        <div>
-          <h3>
-            URL: &nbsp;
-            <input type="text" required onChange={this.handleUrlChange} />
-            <button onClick={this.handleGoButton}>GO!</button>
-          </h3>
+        <h3>
+          URL: &nbsp;
+          <input type="text" onChange={this.handleUrlChange} value ={this.props.url} />
+          <button onClick={this.handleGoButton}>GO!</button>
+        </h3>
 
-          <button onClick={this.handleRestButton} value="get">
-            GET
-          </button>
-          <button onClick={this.handleRestButton} value="post">
-            POST
-          </button>
-          <button onClick={this.handleRestButton} value="put">
-            PUT
-          </button>
-          <button onClick={this.handleRestButton} value="delete">
-            DELETE
-          </button>
-        </div>
+        <button onClick={this.handleRestButton} value="get">
+          GET
+        </button>
+        <button onClick={this.handleRestButton} value="post">
+          POST
+        </button>
+        <button onClick={this.handleRestButton} value="put">
+          PUT
+        </button>
+        <button onClick={this.handleRestButton} value="delete">
+          DELETE
+        </button>
 
-        {/* <div className="history">
-          <ul>{list}</ul>
-        </div> */}
+        {isGet ? (
+          <FormQuery
+            handleQuery={this.handleQuery}
+            handleValue={this.handleValue}
+          />
+        ) : (
+          <FormBody handleBody={this.handleBody} />
+        )}
       </div>
     );
   }
