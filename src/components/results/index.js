@@ -6,9 +6,9 @@ class Results extends React.Component{
     
     render(){
         return (
-            <div className='results'>
+            <section className='results'>
                 <ReactJson src={this.props.results}/>
-            </div>
+            </section>
         )
     }
 }

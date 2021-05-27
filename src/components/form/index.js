@@ -66,9 +66,14 @@ class Form extends React.Component {
 
       results.push(header);
       results.push(body);
-      this.props.handleForm(count, results, history);
-      this.props.toggleLoad()
+      setTimeout(()=>{
+        this.props.handleForm(count, results, history);
+        this.props.toggleLoad()
+      },1000)
     } catch (e) {
+      setTimeout(()=>{
+        this.props.toggleLoad()
+      },1000)
       console.log(e);
     }
   };
