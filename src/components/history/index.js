@@ -12,8 +12,8 @@ class History extends React.Component {
   };
   render() {
     const list = this.props.history.map((element, idx) => (
-      <li key={idx} onClick={this.getvals}>
-        {element[0]} {element[1]}
+      <li key={idx} onClick={this.getvals} className ='historyList'>
+        {element['rest']} {element['url']}
       </li>
     ));
     return (

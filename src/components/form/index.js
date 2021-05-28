@@ -16,8 +16,7 @@ class Form extends React.Component {
 
   handleUrlChange = (e) => {
     let url = e.target.value;
-    // this.setState({ url });
-    this.props.handleUrl(url)
+    this.props.handleUrl(url);
   };
 
   handleBody = (body) => {
@@ -35,45 +34,61 @@ class Form extends React.Component {
   handleRestButton = (e) => {
     e.preventDefault();
     let rest = e.target.value;
-    this.props.handleRest(rest)
+    this.props.handleRest(rest);
   };
 
   handleGoButton = async (e) => {
     e.preventDefault();
     let history = this.props.history;
-    history.push([this.props.rest,this.props.url,this.state.body]);
+    let historyObj = {
+      rest: this.props.rest,
+      url: this.props.url,
+      body: this.state.body,
+      query: this.state.query,
+      value: this.state.value,
+    };
+    history.push(historyObj);
+    if (!localStorage.getItem(`${this.props.rest}-${this.props.url}`)) {
+      localStorage.setItem(
+        `${this.props.rest}-${this.props.url}`,
+        JSON.stringify(historyObj)
+      );
+    }
+
     this.setState({ history });
-    // console.log("from handlegobutton",history)
     try {
       let data;
       let results = [];
-      this.props.toggleLoad()
-      if (this.state.rest === "post") {
-        data = await axios.post(this.props.url,this.state.body);
+      this.props.toggleLoad();
+      if (this.props.rest === "get") {
+        data = await axios.get(this.props.url);
       }
-      // if (this.state.rest === "get") {
-      data = await axios.get(this.props.url);
-      // }
-      // if (this.state.rest === "put") {
+      if (this.props.rest === "post") {
+        console.log("body", this.state.body);
+        data = await axios.post(this.props.url, this.state.body);
+      }
+
+      // if (this.props.rest === "put") {
       //   data = await axios.put(this.props.url);
       // }
-      // if (this.state.rest === "delete") {
-      //   data = await axios.delete(this.props.url);
-      // }
+      if (this.props.rest === "delete") {
+        data = await axios.delete(this.props.url);
+      }
+
       let count = data.data.count;
       let header = data.headers;
       let body = data.data;
 
       results.push(header);
       results.push(body);
-      setTimeout(()=>{
+      setTimeout(() => {
         this.props.handleForm(count, results, history);
-        this.props.toggleLoad()
-      },1000)
+        this.props.toggleLoad();
+      }, 1000);
     } catch (e) {
-      setTimeout(()=>{
-        this.props.toggleLoad()
-      },1000)
+      setTimeout(() => {
+        this.props.toggleLoad();
+      }, 1000);
       console.log(e);
     }
   };
@@ -84,7 +99,11 @@ class Form extends React.Component {
       <div>
         <h3>
           URL: &nbsp;
-          <input type="text" onChange={this.handleUrlChange} value ={this.props.url} />
+          <input
+            type="text"
+            onChange={this.handleUrlChange}
+            value={this.props.url}
+          />
           <button onClick={this.handleGoButton}>GO!</button>
         </h3>
 
