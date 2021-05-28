@@ -5,30 +5,11 @@ import FormBody from "../formbody";
 import FormQuery from "../formquery";
 
 class Form extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      body: "",
-      query: "",
-      value: "",
-    };
-  }
+
 
   handleUrlChange = (e) => {
     let url = e.target.value;
     this.props.handleUrl(url);
-  };
-
-  handleBody = (body) => {
-    this.setState({ body });
-  };
-
-  handleQuery = (query) => {
-    this.setState({ query });
-  };
-
-  handleValue = (value) => {
-    this.setState({ value });
   };
 
   handleRestButton = (e) => {
@@ -40,12 +21,12 @@ class Form extends React.Component {
   handleGoButton = async (e) => {
     e.preventDefault();
     let history = this.props.history;
-    let historyObj = {
+    let historyObj =  {
       rest: this.props.rest,
       url: this.props.url,
-      body: this.state.body,
-      query: this.state.query,
-      value: this.state.value,
+      body: this.props.body,
+      query: this.props.query,
+      value: this.props.value,
     };
     history.push(historyObj);
     if (!localStorage.getItem(`${this.props.rest}-${this.props.url}`)) {
@@ -61,16 +42,20 @@ class Form extends React.Component {
       let results = [];
       this.props.toggleLoad();
       if (this.props.rest === "get") {
+        if(this.props.query && this.props.value){
+          let url = `${this.props.url}?${this.props.query}=${this.props.value}`
+          this.props.handleUrl(url)
+        }
         data = await axios.get(this.props.url);
       }
       if (this.props.rest === "post") {
         console.log("body", this.state.body);
-        data = await axios.post(this.props.url, this.state.body);
+        data = await axios.post(this.props.url, JSON.parse(this.props.body));
       }
 
-      // if (this.props.rest === "put") {
-      //   data = await axios.put(this.props.url);
-      // }
+      if (this.props.rest === "put") {
+        data = await axios.put(this.props.url, JSON.parse(this.props.body));
+      }
       if (this.props.rest === "delete") {
         data = await axios.delete(this.props.url);
       }
@@ -95,6 +80,7 @@ class Form extends React.Component {
 
   render() {
     const isGet = this.props.rest === "get";
+    console.log(this.props.query,this.props.value)
     return (
       <div>
         <h3>
@@ -122,11 +108,11 @@ class Form extends React.Component {
 
         {isGet ? (
           <FormQuery
-            handleQuery={this.handleQuery}
-            handleValue={this.handleValue}
+            handleQuery={this.props.handleQuery}
+            handleValue={this.props.handleValue}
           />
         ) : (
-          <FormBody handleBody={this.handleBody} />
+          <FormBody handleBody={this.props.handleBody} />
         )}
       </div>
     );
