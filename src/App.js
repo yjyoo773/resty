@@ -17,6 +17,9 @@ class App extends React.Component {
       history: [],
       rest: "get",
       url: "",
+      body: "",
+      query: "",
+      value: "",
       loading: false,
     };
   }
@@ -36,6 +39,15 @@ class App extends React.Component {
   handleRest = (rest) => {
     this.setState({ rest });
   };
+  handleBody = (body) => {
+    this.setState({ body });
+  };
+  handleValue = (value) => {
+    this.setState({ value });
+  };
+  handleQuery = (query) => {
+    this.setState({ query });
+  };
 
   render() {
     return (
@@ -47,6 +59,9 @@ class App extends React.Component {
               handleForm={this.handleForm}
               handleUrl={this.handleUrl}
               handleRest={this.handleRest}
+              handleBody={this.handleBody}
+              handleQuery={this.handleQuery}
+              handleValue={this.handleValue}
               toggleLoad={this.toggleLoad}
               history={this.state.history}
               url={this.state.url}
@@ -54,6 +69,9 @@ class App extends React.Component {
               loading={this.state.loading}
               results={this.state.results}
               count={this.state.count}
+              body={this.state.body}
+              query={this.state.query}
+              value={this.state.value}
             />
           </Route>
           <Route exact path="/history">

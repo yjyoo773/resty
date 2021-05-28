@@ -14,10 +14,16 @@ class Home extends React.Component {
           handleForm={this.props.handleForm}
           handleUrl={this.props.handleUrl}
           handleRest={this.props.handleRest}
+          handleBody={this.props.handleBody}
+          handleQuery={this.props.handleQuery}
+          handleValue={this.props.handleValue}
           toggleLoad={this.props.toggleLoad}
           history={this.props.history}
           url={this.props.url}
           rest={this.props.rest}
+          body={this.props.body}
+          query={this.props.query}
+          value={this.props.value}
         />
         {this.props.loading && <Roller />}
         <div
