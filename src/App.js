@@ -1,11 +1,12 @@
 import React from "react";
 import "./design/style.scss";
 import Header from "./components/header";
-import Form from "./components/form";
-import History from "./components/history";
-import Results from "./components/results";
+import Home from "./components/home";
+import HistoryPage from "./components/history-page";
+import Help from "./components/helper";
+
 import Footer from "./components/footer";
-import { Roller } from "react-awesome-spinners";
+import { Route, Switch } from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
@@ -36,43 +37,36 @@ class App extends React.Component {
     this.setState({ rest });
   };
 
-  handleHistory = (url, rest) => {
-    this.setState({ url, rest });
-  };
-
   render() {
     return (
       <>
         <Header />
-        <Form
-          handleForm={this.handleForm}
-          handleUrl={this.handleUrl}
-          handleRest={this.handleRest}
-          toggleLoad={this.toggleLoad}
-          history={this.state.history}
-          url={this.state.url}
-          rest={this.state.rest}
-        />
-        {this.state.loading && <Roller/>}
-        <div
-          className="histults"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            justifyItems: "center",
-          }}
-        >
-          <History
-            history={this.state.history}
-            handleUrl={this.handleUrl}
-            handleRest={this.handleRest}
-          />
-          {this.state.results.length > 0 ? (
-            <Results results={this.state.results} count={this.state.count} />
-          ) : (
-            ""
-          )}
-        </div>
+        <Switch>
+          <Route exact path="/resty">
+            <Home
+              handleForm={this.handleForm}
+              handleUrl={this.handleUrl}
+              handleRest={this.handleRest}
+              toggleLoad={this.toggleLoad}
+              history={this.state.history}
+              url={this.state.url}
+              rest={this.state.rest}
+              loading={this.state.loading}
+              results={this.state.results}
+              count={this.state.count}
+            />
+          </Route>
+          <Route exact path="/history">
+            <HistoryPage
+              history={this.state.history}
+              handleUrl={this.handleUrl}
+              handleRest={this.handleRest}
+            />
+          </Route>
+          <Route exact path="/help">
+            <Help />
+          </Route>
+        </Switch>
         <Footer />
       </>
     );

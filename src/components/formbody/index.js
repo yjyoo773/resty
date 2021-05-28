@@ -1,4 +1,5 @@
 import React from "react";
+import "./formbody.scss";
 
 class FormBody extends React.Component {
   handleBodyChange = (e) => {
@@ -9,7 +10,7 @@ class FormBody extends React.Component {
   render() {
     return (
       <div>
-        <input type="text" placeholder="body" onChange={this.handleBodyChange} />
+        <textarea type="text" placeholder="type body in JSON format" onChange={this.handleBodyChange} />
       </div>
     );
   }
