@@ -1,4 +1,6 @@
 import React from "react";
+import SettingProvider from "./context/settings.js";
+
 import "./design/style.scss";
 import Header from "./components/header";
 import Home from "./components/home";
@@ -7,6 +9,7 @@ import Help from "./components/helper";
 
 import Footer from "./components/footer";
 import { Route, Switch } from "react-router-dom";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -51,7 +54,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
+      <SettingProvider>
         <Header />
         <Switch>
           <Route exact path="/resty">
@@ -86,7 +89,7 @@ class App extends React.Component {
           </Route>
         </Switch>
         <Footer />
-      </>
+      </SettingProvider>
     );
   }
 }

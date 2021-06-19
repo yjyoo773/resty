@@ -5,8 +5,6 @@ import FormBody from "../formbody";
 import FormQuery from "../formquery";
 
 class Form extends React.Component {
-
-
   handleUrlChange = (e) => {
     let url = e.target.value;
     this.props.handleUrl(url);
@@ -21,7 +19,7 @@ class Form extends React.Component {
   handleGoButton = async (e) => {
     e.preventDefault();
     let history = this.props.history;
-    let historyObj =  {
+    let historyObj = {
       rest: this.props.rest,
       url: this.props.url,
       body: this.props.body,
@@ -42,9 +40,9 @@ class Form extends React.Component {
       let results = [];
       this.props.toggleLoad();
       if (this.props.rest === "get") {
-        if(this.props.query && this.props.value){
-          let url = `${this.props.url}?${this.props.query}=${this.props.value}`
-          this.props.handleUrl(url)
+        if (this.props.query && this.props.value) {
+          let url = `${this.props.url}?${this.props.query}=${this.props.value}`;
+          this.props.handleUrl(url);
         }
         data = await axios.get(this.props.url);
       }
@@ -80,7 +78,7 @@ class Form extends React.Component {
 
   render() {
     const isGet = this.props.rest === "get";
-    console.log(this.props.query,this.props.value)
+    console.log(this.props.query, this.props.value);
     return (
       <div>
         <h3>
@@ -120,3 +118,4 @@ class Form extends React.Component {
 }
 
 export default Form;
+
