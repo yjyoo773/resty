@@ -1,26 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
 import useForm from "../../hooks/form.js";
+import { SettingContext } from "../../context/settings.js";
+
 import "./_formquery.scss";
 
-function FormQuery(props) {
-  const [handleChange] = useForm(props.handleChange);
+const FormQuery = (props) => {
+  const [handleSubmit, handleChange] = useForm(props.handleSubmit);
+  const settingContext = useContext(SettingContext);
+
+  let changeParam = (e) => {
+    handleChange();
+    settingContext.changeQuery(e.target.value);
+  };
+
+  let changeValue = (e) => {
+    handleChange();
+    settingContext.changeValue(e.target.value);
+  };
+
   return (
     <div>
       <input
         type="text"
-        name = "queryParam"
+        name="queryParam"
         placeholder="query parameter"
-        onChange={handleChange}
+        onChange={changeParam}
       />
       <input
         type="text"
-        name = "queryVal"
+        name="queryVal"
         placeholder="value"
-        onChange={handleChange}
+        onChange={changeValue}
       />
     </div>
   );
-}
+};
 
 // class FormQuery extends React.Component {
 //   handleQueryChange = (e) => {

@@ -6,6 +6,7 @@ const useForm = (action) => {
   const handleSubmit = (e) => {
     if (e) {
       e.preventDefault();
+      console.log("e.target.resetgu")
       e.target.reset();
     }
     action(values);

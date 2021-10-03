@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./form.scss";
 import axios from "axios";
 import FormBody from "../formbody";
 import FormQuery from "../formquery";
+import { SettingContext } from "../../context/settings.js";
 
 class Form extends React.Component {
   handleUrlChange = (e) => {
@@ -78,7 +79,6 @@ class Form extends React.Component {
 
   render() {
     const isGet = this.props.rest === "get";
-    console.log(this.props.query, this.props.value);
     return (
       <div>
         <h3>
@@ -104,18 +104,10 @@ class Form extends React.Component {
           DELETE
         </button>
 
-        {isGet ? (
-          <FormQuery
-            handleQuery={this.props.handleQuery}
-            handleValue={this.props.handleValue}
-          />
-        ) : (
-          <FormBody handleBody={this.props.handleBody} />
-        )}
+        {isGet ? <FormQuery /> : <FormBody />}
       </div>
     );
   }
 }
 
 export default Form;
-

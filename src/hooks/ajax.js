@@ -1,27 +1,56 @@
-import {useState, useEffect} from 'react'
-import axios from 'axios'
+import axios from "axios";
 
-const useAjax = () =>{
-    const[options,setOptions] = useState({})
-    const[response,setResponse] = useState({})
-    const[error,setError] = useState(null)
-    const[isLoading,setIsLoading] = useState(false)
+const useAjax = (list) => {
+  const todoAPI = "https://ellis-api-server.herokuapp.com/todo";
 
-    useEffect(()=>{
-        async function ajax(){
-            if(!options) return
-            setIsLoading(true)
-            try{
-                const res  = await axios(options)
-                setResponse(res.data)
-                setIsLoading(false)
-            } catch (error) {
-                setError(error)
-            }
-        }
-        ajax()
-    },[options])
-    return {setOptions, response, error, isLoading}
-}
+  const handleGet = async (action) => {
+    try {
+      let getList = await axios.get(todoAPI);
+      let data = getList.data;
+      action(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-export default useAjax
+  const handlePost = async (item, action) => {
+    try {
+      item.due = new Date();
+      item.complete = false;
+      let newItem = await axios.post(todoAPI, item);
+      action(newItem.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handlePut = async (id, action) => {
+    try {
+      let item = list.filter((i) => i._id === id)[0] || {};
+      if (item._id) {
+        item.complete = !item.complete;
+        let updatedItem = await axios.put(`${todoAPI}/${id}`, item);
+        let data = updatedItem.data;
+        action(
+          list.map((listItem) => (listItem._id === data._id ? data : listItem))
+        );
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleDelete = async (id, action) => {
+    try {
+      let item = list.filter((i) => i._id === id)[0] || {};
+      await axios.delete(`${todoAPI}/${id}`);
+      action(list.filter((el) => el._id !== item._id));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return [handleGet, handlePost, handlePut, handleDelete];
+};
+
+export default useAjax;

@@ -1,53 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
+import { SettingContext } from "../../context/settings.js";
 
-import Form from "../form"
+// import Form from "../form"
+import Form from "../form/form.js";
+
 import History from "../history";
 import Results from "../results";
 import { Roller } from "react-awesome-spinners";
 
-class Home extends React.Component {
-
-  render() {
-    return (
-      <>
-        <Form
-          handleForm={this.props.handleForm}
-          handleUrl={this.props.handleUrl}
-          handleRest={this.props.handleRest}
-          handleBody={this.props.handleBody}
-          handleQuery={this.props.handleQuery}
-          handleValue={this.props.handleValue}
-          toggleLoad={this.props.toggleLoad}
-          history={this.props.history}
-          url={this.props.url}
-          rest={this.props.rest}
-          body={this.props.body}
-          query={this.props.query}
-          value={this.props.value}
-        />
-        {this.props.loading && <Roller />}
-        <div
-          className="histults"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            justifyItems: "center",
-          }}
-        >
-          <History
-            history={this.props.history}
-            handleUrl={this.props.handleUrl}
-            handleRest={this.props.handleRest}
-          />
-          {this.props.results.length > 0 ? (
-            <Results results={this.props.results} count={this.props.count} />
-          ) : (
-            ""
-          )}
-        </div>
-      </>
-    );
-  }
+function Home() {
+  const context = useContext(SettingContext);
+  return (
+    <>
+      <Form />
+      <div
+        className="histults"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          justifyItems: "center",
+        }}
+      >
+        <History />
+        {context.result.length > 0 ? <Results /> : null}
+      </div>
+    </>
+  );
 }
 
-export default Home
+export default Home;
