@@ -19,17 +19,20 @@ const Form = () => {
       value: context.value,
     };
     history.push(newHist);
-    if (!localStorage.getItem(`${context.rest}-${context.url}`)) {
-      localStorage.setItem(
+
+    if (!sessionStorage.getItem(`${context.rest}-${context.url}`)) {
+      sessionStorage.setItem(
         `${context.rest}-${context.url}`,
         JSON.stringify(newHist)
       );
     }
-    context.changeHistory(history);  // newly added
+    context.changeHistory(history);
     try {
       let data;
       let results = [];
-      context.changeLoading(!context.loading);
+
+      context.changeLoading(true);
+
       if (context.rest === "get") {
         if (context.query && context.value) {
           let url = `${context.url}?${context.query}=${context.value}`;
@@ -48,18 +51,17 @@ const Form = () => {
       }
       let header = data.headers;
       let body = data.data;
-      console.log("header",header);
-      console.log("body",body);
       results.push(header);
       results.push(body);
       setTimeout(() => {
         context.changeResult(results);
         context.changeHistory(history);
-        context.changeLoading(!context.loading);
+
+        context.changeLoading(false);
       }, 1000);
     } catch (e) {
       setTimeout(() => {
-        context.changeLoading(!context.loading);
+        context.changeLoading(false);
       }, 1000);
     }
   };
@@ -71,6 +73,7 @@ const Form = () => {
         <input
           type="text"
           onChange={(e) => context.changeUrl(e.target.value)}
+          value = {context.url}
         />
         <button onClick={handleGo}>GO</button>
       </h3>

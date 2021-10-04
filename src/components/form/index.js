@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./form.scss";
 import axios from "axios";
 import FormBody from "../formbody";
 import FormQuery from "../formquery";
-import { SettingContext } from "../../context/settings.js";
 
 class Form extends React.Component {
   handleUrlChange = (e) => {

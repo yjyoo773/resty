@@ -1,18 +1,17 @@
 import React, { useContext } from "react";
 import { SettingContext } from "../../context/settings.js";
 
-// import Form from "../form"
 import Form from "../form/form.js";
-
 import History from "../history";
 import Results from "../results";
 import { Roller } from "react-awesome-spinners";
 
-function Home() {
+const Home = () => {
   const context = useContext(SettingContext);
   return (
     <>
       <Form />
+      {context.loading && <Roller />}
       <div
         className="histults"
         style={{
@@ -26,6 +25,6 @@ function Home() {
       </div>
     </>
   );
-}
+};
 
 export default Home;
