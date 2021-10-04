@@ -1,19 +1,25 @@
-import React from "react";
+import { useContext } from "react";
 import "./formbody.scss";
+import { SettingContext } from "../../context/settings.js";
 
-class FormBody extends React.Component {
-  handleBodyChange = (e) => {
-    let body = e.target.value;
-    this.props.handleBody(body);
+const FormBody = () => {
+
+  const settingContext = useContext(SettingContext);
+
+  let changeBody = (e) => {
+    settingContext.changeBody(e.target.value);
   };
 
-  render() {
-    return (
-      <div>
-        <textarea type="text" placeholder="type body in JSON format" onChange={this.handleBodyChange} />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <textarea
+        type="text"
+        name="formBody"
+        placeholder="type body in JSON format"
+        onChange={(e) => changeBody(e)}
+      />
+    </div>
+  );
+};
 
 export default FormBody;
